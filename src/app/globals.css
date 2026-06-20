@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* ===== Design tokens — marca Assis Carrer ===== */
+:root {
+  --bg: #f5f0eb;          /* areia */
+  --surface: #ffffff;
+  --surface-2: #faf7f3;
+  --border: #e7ded3;
+  --border-2: #d9cdbd;
+
+  --ink: #1c2d40;         /* navy */
+  --ink-2: #3c4a5c;
+  --muted: #8a8175;
+
+  --accent: #a96d3e;      /* terracota */
+  --accent-2: #c79872;
+  --accent-bg: #f5ece2;
+
+  --green: #2f9e44;
+  --red: #e03131;
+  --blue: #1971c2;
+  --amber: #e67700;
+
+  --radius: 12px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-bg: var(--accent-bg);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-serif);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* utilidades comuns */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-accent:hover {
+  background: #97602f;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: 8px;
+}
+
+/* ===== Impressão / PDF ===== */
+@media print {
+  aside,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .print-doc {
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  @page {
+    margin: 1.5cm;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo \"=== GAB-PRO ===\" && ls -la /Users/gabriel.amaral/GAB-PRO 2>/dev/null; echo; echo \"=== site/CLAUDE.md ===\" && cat /Users/gabriel.amaral/Site-AC/site/CLAUDE.md 2>/dev/null)",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__list_organizations",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__list_projects",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__get_cost",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__create_project",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack --skip-install --yes)",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__get_project_url",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__get_publishable_keys",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__apply_migration",
+      "Read(//private/tmp/acportal-scaffold/**)",
+      "Bash(mv /tmp/acportal-scaffold/.gitignore /Users/gabriel.amaral/Site-AC/CRM/)",
+      "Bash(rm -rf /tmp/acportal-scaffold)",
+      "Bash(node -e \"const f='/Users/gabriel.amaral/Site-AC/CRM/package.json';const p=require\\(f\\);p.name='assiscarrer-portal';require\\('fs'\\).writeFileSync\\(f,JSON.stringify\\(p,null,2\\)\\)\")",
+      "Bash(npm install *)",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__generate_typescript_types",
+      "Bash(npm run *)",
+      "Bash(git mv *)",
+      "mcp__fcecf684-082b-404f-b68b-81c7c5a1bd45__execute_sql",
+      "Bash(tee /tmp/acportal-dev.log)",
+      "Read(//tmp/**)"
+    ]
+  }
+}
