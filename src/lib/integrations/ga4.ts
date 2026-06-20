@@ -10,24 +10,49 @@ export type Ga4Overview =
       paginas: { pagina: string; views: number }[];
     };
 
-function getCredentials() {
+type BetaClientCtor = typeof import("@google-analytics/data").BetaAnalyticsDataClient;
+
+/** Cria o client do GA4 via conta de serviço (B64) OU via OAuth (refresh token). */
+async function getClient(): Promise<{
+  client: InstanceType<BetaClientCtor>;
+  propertyId: string;
+} | null> {
   const propertyId = process.env.GA4_PROPERTY_ID;
+  if (!propertyId) return null;
+
+  const { BetaAnalyticsDataClient } = await import("@google-analytics/data");
+
+  // Opção 1 — conta de serviço (JSON em base64)
   const saB64 = process.env.GOOGLE_SERVICE_ACCOUNT_B64;
-  if (!propertyId || !saB64) return null;
-  try {
-    const credentials = JSON.parse(Buffer.from(saB64, "base64").toString("utf8"));
-    return { propertyId, credentials };
-  } catch {
-    return null;
+  if (saB64) {
+    try {
+      const credentials = JSON.parse(Buffer.from(saB64, "base64").toString("utf8"));
+      return { client: new BetaAnalyticsDataClient({ credentials }), propertyId };
+    } catch {
+      return null;
+    }
   }
+
+  // Opção 2 — OAuth (mesma credencial usada por Ads e Drive)
+  const client_id = process.env.GOOGLE_CLIENT_ID;
+  const client_secret = process.env.GOOGLE_CLIENT_SECRET;
+  const refresh_token = process.env.GOOGLE_REFRESH_TOKEN;
+  if (client_id && client_secret && refresh_token) {
+    const { google } = await import("googleapis");
+    const oauth2 = new google.auth.OAuth2(client_id, client_secret);
+    oauth2.setCredentials({ refresh_token });
+    const opts = { authClient: oauth2 } as unknown as ConstructorParameters<BetaClientCtor>[0];
+    return { client: new BetaAnalyticsDataClient(opts), propertyId };
+  }
+
+  return null;
 }
 
 export async function getGa4Overview(days = 28): Promise<Ga4Overview> {
-  const cfg = getCredentials();
+  const cfg = await getClient();
   if (!cfg) return { configured: false };
 
-  const { BetaAnalyticsDataClient } = await import("@google-analytics/data");
-  const client = new BetaAnalyticsDataClient({ credentials: cfg.credentials });
+  const client = cfg.client;
   const property = `properties/${cfg.propertyId}`;
   const dateRanges = [{ startDate: `${days}daysAgo`, endDate: "today" }];
 
